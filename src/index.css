@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Comfortaa", cursive;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .modal-input {
+    @apply w-full h-full px-2 text-xs text-white bg-green-500 rounded-md outline-none shadow-green-300 placeholder:text-gray-300;
+  }
+}
+
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #000000e1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  width: clamp(38%, 500px, 90%);
+  min-height: min(50%, 400px);
+  margin: 0 auto;
+  padding: 0 1rem;
+  border-radius: 12px;
+  z-index: 12;
+}
