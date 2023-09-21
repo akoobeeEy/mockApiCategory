@@ -1,5 +1,3 @@
-import { useForm } from "react-hook-form";
-
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import Backdrop from "../backdrop/Backdrop";
@@ -9,8 +7,7 @@ import { SiNamecheap } from "react-icons/si";
 import { GiScrollUnfurled } from "react-icons/gi";
 import { MdPriceChange } from "react-icons/md";
 import { BsFillCalendarDateFill } from "react-icons/bs";
-import request from "../../server";
-import { toast } from "react-toastify";
+
 import { useContext } from "react";
 import { MockContext } from "../../context/Context";
 
@@ -34,22 +31,13 @@ const dropIn = {
     opacity: 1,
   },
 };
-const Modal = ({ handleClose }) => {
-  const { getData } = useContext(MockContext);
+const Modal = () => {
+  const { handleSubmit, register, close, selected, onSubmit } =
+    useContext(MockContext);
 
-  const { register, handleSubmit } = useForm();
-  const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      await request.post("category", data);
-      handleClose();
-      getData();
-    } catch (err) {
-      toast(err);
-    }
-  };
+
   return (
-    <Backdrop onClick={handleClose}>
+    <Backdrop onClick={close}>
       <motion.div
         onClick={(e) => e.stopPropagation()}
         initial="hidden"
@@ -68,7 +56,7 @@ const Modal = ({ handleClose }) => {
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9, rotate: -90 }}
             className=""
-            onClick={handleClose}
+            onClick={close}
           >
             <AiOutlineClose className="text-3xl font-bold text-green-500" />
           </motion.button>
@@ -134,7 +122,7 @@ const Modal = ({ handleClose }) => {
               type="submit"
               className="px-8 py-2 text-green-500 bg-white border-2 border-green-500 rounded-full"
             >
-              Add Category
+              {selected ? "Save" : "Add"} Category
             </button>
           </div>
         </form>

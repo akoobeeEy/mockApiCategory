@@ -1,9 +1,19 @@
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
+import { useContext } from "react";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineReadMore } from "react-icons/md";
+import { MockContext } from "../../context/Context";
+import { useNavigate } from "react-router-dom";
 
-const Card = ({ name, image, description }) => {
+const Card = ({ name, image, description, price, comment, id }) => {
+  const { editData,deleteData } = useContext(MockContext);
+  const navigate = useNavigate();
+
+  const enterProduct = (id) =>{
+    navigate('/products');
+    console.log(id);
+  }
   return (
     <motion.div
       initial={{ y: 300, opacity: 0, scale: 0.5 }}
@@ -19,13 +29,16 @@ const Card = ({ name, image, description }) => {
         <h2 className="mb-3 text-xl font-bold text-white">{name}</h2>
 
         <div className="h-28">
-          <p className="w-full text-sm font-normal text-white">
-            {description}
-          </p>
+          <p className="w-full text-sm font-normal text-white">{description}</p>
+          <div className="flex gap-2 my-2">
+            <p className="text-xs text-white">{price}$</p>
+            <p className="text-xs text-white">{comment}</p>
+          </div>
         </div>
 
         <div className="flex justify-between">
           <motion.button
+            onClick={() => editData(id)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="flex items-center px-6 py-1 text-sm text-blue-600 duration-100 bg-white rounded-full hover:text-white hover:bg-blue-600 c"
@@ -39,6 +52,7 @@ const Card = ({ name, image, description }) => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onClick={()=> deleteData(id)}
             className="flex items-center px-6 py-1 text-sm text-red-500 duration-100 bg-white rounded-full hover:bg-red-500 hover:text-white"
           >
             Delete
@@ -47,6 +61,7 @@ const Card = ({ name, image, description }) => {
             </span>
           </motion.button>
           <motion.button
+          onClick={()=>enterProduct(id)} 
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="flex items-center px-6 py-1 text-sm text-green-500 duration-100 bg-white rounded-full hover:bg-amber-500 hover:text-black"
@@ -66,6 +81,9 @@ Card.propTypes = {
   name: PropTypes.string,
   image: PropTypes.string,
   description: PropTypes.string,
+  price: PropTypes.string,
+  comment: PropTypes.string,
+  id: PropTypes.string,
 };
 
 export default Card;
